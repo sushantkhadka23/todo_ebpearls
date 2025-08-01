@@ -1,16 +1,40 @@
-# todo_ebpearls
+# TODO App
 
-A new Flutter project.
+A simple Flutter TODO application built with Clean Architecture, `flutter_bloc`, `sqflite`, `get_it`, and `go_router`.
 
-## Getting Started
+---
+## Architecture
 
-This project is a starting point for a Flutter application.
+- **Presentation Layer:**  
+  Flutter widgets and `go_router` for navigation.
 
-A few resources to get you started if this is your first Flutter project:
+- **Domain Layer:**  
+  Task entity and repository interface.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- **Data Layer:**  
+  Sqflite for local storage and implmentation (impl).
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
+---
+
+## Features
+
+- View, add, edit, and delete tasks.
+- Mark tasks as completed/incomplete.
+- Filter tasks by status (All, Active, Completed).
+- Assign priority (High, Medium, Low) and due date.
+- Sort tasks by due date.
+- Persistent storage with Sqflite.
+
+---
+
+## Design Decisions
+
+- Sqflite for local storage,
+- go_router for navigation,
+- flutter_bloc for state management,
+- get_it for service locator,
+- and Clean Architecture for structuring the app.
+
+---
+
