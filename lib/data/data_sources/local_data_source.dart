@@ -1,5 +1,5 @@
 import 'package:todo_ebpearls/domain/entity/task.dart';
-import 'package:todo_ebpearls/core/service/local_storage_service.dart';
+import 'package:todo_ebpearls/core/services/local_storage_service.dart';
 
 class LocalDataSource {
   final LocalStorageService service;

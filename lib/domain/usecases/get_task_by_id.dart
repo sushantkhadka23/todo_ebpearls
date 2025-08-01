@@ -7,7 +7,7 @@ class GetTaskById {
   final TaskRepository repository;
   const GetTaskById(this.repository);
 
-  Future<dartz.Either<Exception, Task?>> getTaskById(String id) async {
+  Future<dartz.Either<Exception, Task?>> execute(String id) async {
     return repository.getTaskById(id);
   }
 }
