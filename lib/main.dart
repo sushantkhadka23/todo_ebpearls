@@ -15,7 +15,7 @@ class TodoApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AppSize().init(context);
+    AppSize.init(context);
     return MaterialApp.router(
       theme: ThemeData.light(useMaterial3: true),
       darkTheme: ThemeData.dark(useMaterial3: true),
