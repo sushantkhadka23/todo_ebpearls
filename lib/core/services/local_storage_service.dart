@@ -84,4 +84,19 @@ class LocalStorageService {
     final db = await database;
     await db.update(AppConstants.tableName, {'isCompleted': isCompleted ? 1 : 0}, where: 'id = ?', whereArgs: [id]);
   }
+
+  // close the database connection
+  Future<void> closeDatabase() async {
+    if (_database != null) {
+      await _database!.close();
+      _database = null;
+    }
+  }
+
+  // delete whole db
+  Future<void> deleteDb() async {
+    final path = join(await getDatabasesPath(), AppConstants.dbName);
+    await closeDatabase();
+    await deleteDatabase(path);
+  }
 }
