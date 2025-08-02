@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:todo_ebpearls/core/extension/theme_extension.dart';
+import 'package:todo_ebpearls/domain/entity/enums.dart';
 import 'package:todo_ebpearls/domain/entity/task.dart';
 import 'package:todo_ebpearls/presentation/widgets/task_list/task_list_utils.dart';
 
@@ -7,6 +9,7 @@ class TaskCard extends StatelessWidget {
   final Task task;
   final int index;
   final VoidCallback onToggleCompletion;
+  final VoidCallback onView;
   final VoidCallback onEdit;
   final VoidCallback onDelete;
 
@@ -15,6 +18,7 @@ class TaskCard extends StatelessWidget {
     required this.task,
     required this.index,
     required this.onToggleCompletion,
+    required this.onView,
     required this.onEdit,
     required this.onDelete,
   });
@@ -40,7 +44,6 @@ class TaskCard extends StatelessWidget {
             padding: const EdgeInsets.all(16),
             child: Row(
               children: [
-                // Completion checkbox
                 GestureDetector(
                   onTap: onToggleCompletion,
                   child: AnimatedContainer(
@@ -55,7 +58,7 @@ class TaskCard extends StatelessWidget {
                         width: 2,
                       ),
                     ),
-                    child: task.isCompleted ? const Icon(Icons.check, color: Colors.white, size: 16) : null,
+                    child: task.isCompleted ? const Icon(Icons.check, size: 16) : null,
                   ),
                 ),
                 const SizedBox(width: 16),
@@ -69,15 +72,26 @@ class TaskCard extends StatelessWidget {
                         children: [
                           // Priority indicator
                           Container(
-                            padding: const EdgeInsets.all(4),
+                            padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 10),
                             decoration: BoxDecoration(
-                              color: TaskListUtils.getPriorityColor(task.priority).withOpacity(0.15),
-                              borderRadius: BorderRadius.circular(6),
+                              color: _getLightPriorityColor(task.priority),
+                              borderRadius: BorderRadius.circular(16),
+                              border: Border.all(color: TaskListUtils.getPriorityColor(task.priority), width: 1),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: TaskListUtils.getPriorityColor(task.priority).withOpacity(0.3),
+                                  blurRadius: 4,
+                                  offset: const Offset(0, 2),
+                                ),
+                              ],
                             ),
-                            child: FaIcon(
-                              TaskListUtils.getPriorityIcon(task.priority),
-                              size: 12,
-                              color: TaskListUtils.getPriorityColor(task.priority),
+                            child: Row(
+                              children: [
+                                Text(
+                                  TaskListUtils.getPriorityText(task.priority),
+                                  style: context.textTheme.labelMedium?.copyWith(color: Colors.black),
+                                ),
+                              ],
                             ),
                           ),
                           const SizedBox(width: 8),
@@ -162,6 +176,9 @@ class TaskCard extends StatelessWidget {
                 PopupMenuButton<String>(
                   onSelected: (value) {
                     switch (value) {
+                      case 'view':
+                        onView();
+                        break;
                       case 'edit':
                         onEdit();
                         break;
@@ -172,9 +189,23 @@ class TaskCard extends StatelessWidget {
                   },
                   itemBuilder: (context) => [
                     PopupMenuItem(
+                      value: 'view',
+                      child: Row(
+                        children: [
+                          FaIcon(FontAwesomeIcons.eye, size: 16, color: context.colorScheme.onSurface),
+                          const SizedBox(width: 12),
+                          const Text('View'),
+                        ],
+                      ),
+                    ),
+                    PopupMenuItem(
                       value: 'edit',
                       child: Row(
-                        children: [FaIcon(FontAwesomeIcons.edit, size: 16), const SizedBox(width: 12), const Text('Edit')],
+                        children: [
+                          FaIcon(FontAwesomeIcons.edit, color: context.colorScheme.onSurface, size: 16),
+                          const SizedBox(width: 12),
+                          const Text('Edit'),
+                        ],
                       ),
                     ),
                     PopupMenuItem(
@@ -207,5 +238,16 @@ class TaskCard extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Color _getLightPriorityColor(Priority priority) {
+    switch (priority) {
+      case Priority.high:
+        return Colors.red.shade200;
+      case Priority.medium:
+        return Colors.orange.shade200;
+      case Priority.low:
+        return Colors.green.shade200;
+    }
   }
 }

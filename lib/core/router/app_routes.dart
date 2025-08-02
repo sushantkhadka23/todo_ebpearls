@@ -4,6 +4,7 @@ class AppRoutesName {
   static const String addTask = 'add-task';
   static const String editTask = 'edit-task';
   static const String settings = 'settings';
+  static const String viewTask = 'view-task';
 }
 
 class AppRoutes {
@@ -12,4 +13,5 @@ class AppRoutes {
   static const String addTask = '/add-task';
   static const String editTask = '/edit-task';
   static const String settings = '/settings';
+  static const String viewTask = '/view-task';
 }

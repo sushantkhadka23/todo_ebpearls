@@ -6,7 +6,7 @@ import 'package:todo_ebpearls/core/utils/snackbar_utils.dart';
 import 'package:todo_ebpearls/domain/entity/task.dart';
 import 'package:todo_ebpearls/domain/entity/enums.dart';
 import 'package:todo_ebpearls/core/status/app_status.dart';
-import 'package:todo_ebpearls/presentation/bloc/task_bloc.dart';
+import 'package:todo_ebpearls/presentation/bloc/task/task_bloc.dart';
 import 'package:todo_ebpearls/presentation/widgets/task_list/task_filter_selection.dart';
 import 'package:todo_ebpearls/presentation/widgets/task_list/task_list_app_bar.dart';
 import 'package:todo_ebpearls/presentation/widgets/task_list/task_empty_state.dart';
@@ -123,6 +123,9 @@ class _TaskListScreenState extends State<TaskListScreen> with TickerProviderStat
                   return false;
                 },
                 builder: (context, state) {
+                  if (state.status is InProgress) {
+                    return CircularProgressIndicator.adaptive();
+                  }
                   final filteredTasks = _filterTasks(state.tasks);
                   if (filteredTasks.isEmpty) {
                     return TaskEmptyState(currentFilter: _currentFilter);

@@ -5,7 +5,7 @@ import 'package:uuid/uuid.dart';
 import 'package:todo_ebpearls/core/status/app_status.dart';
 import 'package:todo_ebpearls/domain/entity/enums.dart';
 import 'package:todo_ebpearls/domain/entity/task.dart';
-import 'package:todo_ebpearls/presentation/bloc/task_bloc.dart';
+import 'package:todo_ebpearls/presentation/bloc/task/task_bloc.dart';
 import 'package:todo_ebpearls/presentation/widgets/add_task/add_task_app_bar.dart';
 import 'package:todo_ebpearls/presentation/widgets/add_task/add_task_header.dart';
 import 'package:todo_ebpearls/presentation/widgets/add_task/add_task_title_field.dart';
