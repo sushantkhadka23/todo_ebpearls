@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todo_ebpearls/core/router/app_routes.dart';
-import 'package:todo_ebpearls/presentation/bloc/task_bloc.dart';
+import 'package:todo_ebpearls/presentation/bloc/task/task_bloc.dart';
 
 class TaskListAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool sortByDueDate;

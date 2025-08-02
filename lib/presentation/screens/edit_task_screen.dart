@@ -4,7 +4,7 @@ import 'package:todo_ebpearls/core/status/app_status.dart';
 import 'package:todo_ebpearls/core/utils/snackbar_utils.dart';
 import 'package:todo_ebpearls/domain/entity/enums.dart';
 import 'package:todo_ebpearls/domain/entity/task.dart';
-import 'package:todo_ebpearls/presentation/bloc/task_bloc.dart';
+import 'package:todo_ebpearls/presentation/bloc/task/task_bloc.dart';
 import 'package:todo_ebpearls/presentation/widgets/edit_task/edit_task_utils.dart';
 import 'package:todo_ebpearls/presentation/widgets/edit_task/edit_task_app_bar.dart';
 import 'package:todo_ebpearls/presentation/widgets/edit_task/edit_task_header.dart';

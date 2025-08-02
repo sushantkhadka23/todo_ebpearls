@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:todo_ebpearls/core/status/app_status.dart';
-import 'package:todo_ebpearls/presentation/bloc/task_bloc.dart';
+import 'package:todo_ebpearls/presentation/bloc/task/task_bloc.dart';
 
 class EditTaskBottomSection extends StatelessWidget {
   final bool isFormValid;

@@ -109,7 +109,7 @@ class TaskListUtils {
     return DateFormat('MMM dd, yyyy').format(createdAt);
   }
 
-  static showDeleteConfirmation(String id, BuildContext context) {
+  static void showDeleteConfirmation(String taskTitle, BuildContext context, [VoidCallback? onDelete]) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -121,12 +121,16 @@ class TaskListUtils {
             const Text('Delete Task'),
           ],
         ),
-        content: Text('Are you sure you want to delete this task? This action is irreversible.'),
+        content: Text('Are you sure you want to delete "$taskTitle"? This action is irreversible.'),
         actions: [
           TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cancel')),
           ElevatedButton(
             onPressed: () {
-              context.read<TaskBloc>().add(RemoveTask(id));
+              if (onDelete != null) {
+                onDelete();
+              } else {
+                context.read<TaskBloc>().add(RemoveTask(taskTitle));
+              }
               Navigator.pop(context);
             },
             style: ElevatedButton.styleFrom(backgroundColor: Colors.red.shade400, foregroundColor: Colors.white),
