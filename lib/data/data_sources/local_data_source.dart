@@ -28,4 +28,8 @@ class LocalDataSource {
   Future<void> toggleTaskCompletion(String id, bool isCompleted) async {
     await service.toggleTaskCompletion(id, isCompleted);
   }
+
+  Future<void> deleteDatabase() async {
+    await service.deleteDb();
+  }
 }
