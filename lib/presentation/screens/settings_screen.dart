@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:todo_ebpearls/core/utils/snackbar_utils.dart';
 import 'package:todo_ebpearls/presentation/bloc/theme/theme_bloc.dart';
 import 'package:todo_ebpearls/presentation/widgets/settings/setting_app_bar.dart';
-import 'package:todo_ebpearls/presentation/widgets/settings/setting_color_selection.dart';
-
 import 'package:todo_ebpearls/presentation/widgets/settings/setting_theme_selection.dart';
+import 'package:todo_ebpearls/presentation/widgets/settings/setting_color_selection.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -51,11 +52,7 @@ class _SettingsScreenState extends State<SettingsScreen> with TickerProviderStat
     return BlocBuilder<ThemeBloc, ThemeState>(
       builder: (context, themeState) {
         return Scaffold(
-          appBar: SettingAppBar(
-            onBack: () {
-              Navigator.pop(context);
-            },
-          ),
+          appBar: SettingAppBar(onBack: () => Navigator.pop(context)),
           body: FadeTransition(
             opacity: _fadeAnimation,
             child: SlideTransition(

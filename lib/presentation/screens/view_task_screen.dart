@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:todo_ebpearls/domain/entity/task.dart';
 import 'package:todo_ebpearls/core/status/app_status.dart';
 import 'package:todo_ebpearls/core/utils/snackbar_utils.dart';
-import 'package:todo_ebpearls/domain/entity/task.dart';
 import 'package:todo_ebpearls/presentation/bloc/task/task_bloc.dart';
-import 'package:todo_ebpearls/presentation/widgets/view_task/view_task_app_bar.dart';
 import 'package:todo_ebpearls/presentation/widgets/view_task/view_task_header.dart';
 import 'package:todo_ebpearls/presentation/widgets/view_task/view_task_details.dart';
+import 'package:todo_ebpearls/presentation/widgets/view_task/view_task_app_bar.dart';
 import 'package:todo_ebpearls/presentation/widgets/view_task/view_task_danger_zone.dart';
 
 class ViewTaskScreen extends StatefulWidget {
@@ -28,10 +30,7 @@ class _ViewTaskScreenState extends State<ViewTaskScreen> with TickerProviderStat
   @override
   void initState() {
     super.initState();
-    // Trigger task fetch
     context.read<TaskBloc>().add(GetSingleTask(widget.taskId));
-
-    // Initialize animations
     _fadeAnimationController = AnimationController(duration: const Duration(milliseconds: 300), vsync: this);
     _slideAnimationController = AnimationController(duration: const Duration(milliseconds: 400), vsync: this);
 
@@ -78,7 +77,7 @@ class _ViewTaskScreenState extends State<ViewTaskScreen> with TickerProviderStat
       },
       builder: (context, state) {
         if (state.status is InProgress || _task == null) {
-          return const Scaffold(body: Center(child: CircularProgressIndicator()));
+          return const Scaffold(body: Center(child: CircularProgressIndicator.adaptive()));
         }
 
         return Scaffold(

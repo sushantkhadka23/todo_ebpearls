@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:todo_ebpearls/core/extension/theme_extension.dart';
 import 'package:todo_ebpearls/domain/entity/app_color.dart';
 
 class SettingColorSelection extends StatelessWidget {
@@ -28,7 +29,7 @@ class SettingColorSelection extends StatelessWidget {
       children: [
         Row(
           children: [
-            FaIcon(FontAwesomeIcons.palette, size: 18, color: Theme.of(context).colorScheme.primary),
+            FaIcon(FontAwesomeIcons.palette, size: 18, color: context.colorScheme.primary),
             const SizedBox(width: 12),
             Text('App Color', style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold)),
           ],
@@ -38,9 +39,7 @@ class SettingColorSelection extends StatelessWidget {
           children: [
             Text(
               'Choose your preferred color theme for the app interface',
-              style: Theme.of(
-                context,
-              ).textTheme.bodySmall?.copyWith(color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6)),
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(color: context.colorScheme.onSurface.withOpacity(0.6)),
             ),
             const SizedBox(height: 16),
             GridView.builder(

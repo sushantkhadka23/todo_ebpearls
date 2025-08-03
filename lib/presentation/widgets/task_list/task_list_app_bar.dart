@@ -59,14 +59,7 @@ class TaskListAppBar extends StatelessWidget implements PreferredSizeWidget {
           tooltip: sortByDueDate ? 'Sort by date' : 'Default order',
         ),
         const SizedBox(width: 8),
-        IconButton(
-          onPressed: () => context.pushNamed(AppRoutesName.settings),
-          icon: AnimatedRotation(
-            turns: sortByDueDate ? 0.5 : 0,
-            duration: const Duration(milliseconds: 200),
-            child: const FaIcon(FontAwesomeIcons.gear),
-          ),
-        ),
+        IconButton(onPressed: () => context.pushNamed(AppRoutesName.settings), icon: const FaIcon(FontAwesomeIcons.gear)),
       ],
     );
   }

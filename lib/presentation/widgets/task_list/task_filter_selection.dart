@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 import 'package:todo_ebpearls/domain/entity/enums.dart';
+import 'package:todo_ebpearls/core/extension/theme_extension.dart';
 import 'package:todo_ebpearls/presentation/widgets/task_list/task_list_utils.dart';
 
 class TaskFilterSection extends StatelessWidget {
@@ -21,7 +24,7 @@ class TaskFilterSection extends StatelessWidget {
       margin: const EdgeInsets.all(16),
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surfaceContainerHighest.withOpacity(0.3),
+        color: context.colorScheme.surfaceContainerHighest.withOpacity(0.3),
         borderRadius: BorderRadius.circular(16),
       ),
       child: Row(
@@ -33,14 +36,14 @@ class TaskFilterSection extends StatelessWidget {
               child: AnimatedContainer(
                 duration: const Duration(milliseconds: 200),
                 margin: const EdgeInsets.all(2),
-                padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
                 decoration: BoxDecoration(
-                  color: isSelected ? Theme.of(context).colorScheme.primary : Colors.transparent,
+                  color: isSelected ? context.colorScheme.primary : Colors.transparent,
                   borderRadius: BorderRadius.circular(12),
                   boxShadow: isSelected
                       ? [
                           BoxShadow(
-                            color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
+                            color: context.colorScheme.primary.withOpacity(0.3),
                             blurRadius: 8,
                             offset: const Offset(0, 2),
                           ),
@@ -53,19 +56,15 @@ class TaskFilterSection extends StatelessWidget {
                     FaIcon(
                       TaskListUtils.getFilterIcon(filter),
                       size: 16,
-                      color: isSelected
-                          ? Theme.of(context).colorScheme.onPrimary
-                          : Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+                      color: isSelected ? context.colorScheme.onPrimary : context.colorScheme.onSurface.withOpacity(0.6),
                     ),
                     const SizedBox(width: 8),
                     Text(
                       TaskListUtils.getFilterLabel(filter),
                       style: TextStyle(
-                        color: isSelected
-                            ? Theme.of(context).colorScheme.onPrimary
-                            : Theme.of(context).colorScheme.onSurface,
+                        color: isSelected ? context.colorScheme.onPrimary : context.colorScheme.onSurface,
                         fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
-                        fontSize: 14,
+                        fontSize: 13,
                       ),
                     ),
                   ],

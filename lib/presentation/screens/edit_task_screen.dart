@@ -34,6 +34,8 @@ class _EditTaskScreenState extends State<EditTaskScreen> with TickerProviderStat
   bool _isFormValid = true;
   bool _hasChanges = false;
   Task? _task;
+  bool _isInitialLoad = true;
+  bool _isUpdating = false;
 
   late AnimationController _slideAnimationController;
   late AnimationController _fadeAnimationController;
@@ -72,6 +74,9 @@ class _EditTaskScreenState extends State<EditTaskScreen> with TickerProviderStat
 
     _fadeAnimationController.forward();
     _slideAnimationController.forward();
+
+    // Load the task
+    context.read<TaskBloc>().add(GetSingleTask(widget.taskId));
   }
 
   @override
@@ -111,6 +116,11 @@ class _EditTaskScreenState extends State<EditTaskScreen> with TickerProviderStat
 
   void _updateTask() {
     if (_task == null || !_formKey.currentState!.validate() || !_isFormValid || !_hasChanges) return;
+
+    setState(() {
+      _isUpdating = true;
+    });
+
     final updatedTask = Task(
       id: _task!.id,
       title: _titleController.text.trim(),
@@ -135,26 +145,43 @@ class _EditTaskScreenState extends State<EditTaskScreen> with TickerProviderStat
     });
   }
 
+  void _populateFormFromTask(Task task) {
+    setState(() {
+      _task = task;
+      _titleController.text = task.title;
+      _descriptionController.text = task.description ?? '';
+      _selectedPriority = task.priority;
+      _selectedDueDate = task.dueDate;
+      _hasChanges = false;
+      _isInitialLoad = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<TaskBloc, TaskState>(
+    return BlocListener<TaskBloc, TaskState>(
       listener: (context, state) {
-        if (state.status is Success && state.task != null) {
-          setState(() {
-            _task = state.task;
-            _titleController.text = _task!.title;
-            _descriptionController.text = _task!.description ?? '';
-            _selectedPriority = _task!.priority;
-            _selectedDueDate = _task!.dueDate;
-          });
-        } else if (state.status is Success) {
-          SnackbarUtils.showSuccess(context, "Update task success");
-          Navigator.pop(context);
+        if (state.status is Success) {
+          if (_isInitialLoad && state.task != null) {
+            // This is initial task load
+            _populateFormFromTask(state.task!);
+          } else if (_isUpdating && !_isInitialLoad) {
+            // This is after successful update
+            setState(() {
+              _isUpdating = false;
+            });
+            SnackbarUtils.showSuccess(context, "Update task success");
+            Navigator.pop(context);
+          }
         } else if (state.status is Failure) {
+          setState(() {
+            _isUpdating = false;
+          });
           _shakeAnimationController.forward().then((_) {
             _shakeAnimationController.reverse();
           });
           SnackbarUtils.showError(context, 'Error: ${(state.status as Failure).exception.toString()}');
+
           if (_task == null) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
               Navigator.pop(context);
@@ -162,113 +189,115 @@ class _EditTaskScreenState extends State<EditTaskScreen> with TickerProviderStat
           }
         }
       },
-      builder: (context, state) {
-        if (state.status is InProgress || _task == null) {
-          return const Scaffold(body: Center(child: CircularProgressIndicator()));
-        }
+      child: BlocBuilder<TaskBloc, TaskState>(
+        builder: (context, state) {
+          if ((state.status is InProgress && _isInitialLoad) || _task == null) {
+            return const Scaffold(body: Center(child: CircularProgressIndicator()));
+          }
 
-        return PopScope(
-          canPop: !_hasChanges,
-          onPopInvokedWithResult: (didPop, result) {
-            if (!didPop && _hasChanges) {
-              EditTaskUtils.showDiscardChangesDialog(context);
-            }
-          },
-          child: Scaffold(
-            appBar: EditTaskAppBar(
-              hasChanges: _hasChanges,
-              onBack: () {
-                if (_hasChanges) {
-                  EditTaskUtils.showDiscardChangesDialog(context);
-                } else {
-                  Navigator.pop(context);
-                }
-              },
-              onReset: _resetForm,
-            ),
-            body: FadeTransition(
-              opacity: _fadeAnimation,
-              child: SlideTransition(
-                position: _slideAnimation,
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: SingleChildScrollView(
-                        padding: const EdgeInsets.all(16),
-                        child: AnimatedBuilder(
-                          animation: _shakeAnimation,
-                          builder: (context, child) {
-                            return Transform.translate(
-                              offset: Offset(_shakeAnimation.value, 0),
-                              child: Form(
-                                key: _formKey,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const EditTaskHeader(),
-                                    const SizedBox(height: 24),
-                                    EditTaskStatusCard(
-                                      task: _task!,
-                                      onToggleCompletion: () {
-                                        context.read<TaskBloc>().add(UpdateTaskCompletion(_task!.id, !_task!.isCompleted));
-                                      },
-                                    ),
-                                    const SizedBox(height: 24),
-                                    EditTaskTitleField(controller: _titleController),
-                                    const SizedBox(height: 20),
-                                    EditTaskDescriptionField(controller: _descriptionController),
-                                    const SizedBox(height: 24),
-                                    EditTaskPrioritySection(
-                                      selectedPriority: _selectedPriority!,
-                                      onPriorityChanged: (priority) {
-                                        setState(() {
-                                          _selectedPriority = priority;
-                                        });
-                                        _checkForChanges();
-                                      },
-                                    ),
-                                    const SizedBox(height: 24),
-                                    EditTaskDueDateSection(
-                                      selectedDueDate: _selectedDueDate,
-                                      onDueDateSelected: (date) {
-                                        setState(() {
-                                          _selectedDueDate = date;
-                                        });
-                                        _checkForChanges();
-                                      },
-                                    ),
-                                    const SizedBox(height: 32),
-                                    EditTaskDangerZone(
-                                      taskTitle: _task!.title,
-                                      onDelete: () => EditTaskUtils.showDeleteConfirmation(context, _task!.id),
-                                    ),
-                                  ],
+          return PopScope(
+            canPop: !_hasChanges,
+            onPopInvokedWithResult: (didPop, result) {
+              if (!didPop && _hasChanges) {
+                EditTaskUtils.showDiscardChangesDialog(context);
+              }
+            },
+            child: Scaffold(
+              appBar: EditTaskAppBar(
+                hasChanges: _hasChanges,
+                onBack: () {
+                  if (_hasChanges) {
+                    EditTaskUtils.showDiscardChangesDialog(context);
+                  } else {
+                    Navigator.pop(context);
+                  }
+                },
+                onReset: _resetForm,
+              ),
+              body: FadeTransition(
+                opacity: _fadeAnimation,
+                child: SlideTransition(
+                  position: _slideAnimation,
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: SingleChildScrollView(
+                          padding: const EdgeInsets.all(16),
+                          child: AnimatedBuilder(
+                            animation: _shakeAnimation,
+                            builder: (context, child) {
+                              return Transform.translate(
+                                offset: Offset(_shakeAnimation.value, 0),
+                                child: Form(
+                                  key: _formKey,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      const EditTaskHeader(),
+                                      const SizedBox(height: 24),
+                                      EditTaskStatusCard(
+                                        task: _task!,
+                                        onToggleCompletion: () {
+                                          context.read<TaskBloc>().add(UpdateTaskCompletion(_task!.id, !_task!.isCompleted));
+                                        },
+                                      ),
+                                      const SizedBox(height: 24),
+                                      EditTaskTitleField(controller: _titleController),
+                                      const SizedBox(height: 20),
+                                      EditTaskDescriptionField(controller: _descriptionController),
+                                      const SizedBox(height: 24),
+                                      EditTaskPrioritySection(
+                                        selectedPriority: _selectedPriority!,
+                                        onPriorityChanged: (priority) {
+                                          setState(() {
+                                            _selectedPriority = priority;
+                                          });
+                                          _checkForChanges();
+                                        },
+                                      ),
+                                      const SizedBox(height: 24),
+                                      EditTaskDueDateSection(
+                                        selectedDueDate: _selectedDueDate,
+                                        onDueDateSelected: (date) {
+                                          setState(() {
+                                            _selectedDueDate = date;
+                                          });
+                                          _checkForChanges();
+                                        },
+                                      ),
+                                      const SizedBox(height: 32),
+                                      EditTaskDangerZone(
+                                        taskTitle: _task!.title,
+                                        onDelete: () => EditTaskUtils.showDeleteConfirmation(context, _task!.id),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            );
-                          },
+                              );
+                            },
+                          ),
                         ),
                       ),
-                    ),
-                    EditTaskBottomSection(
-                      isFormValid: _isFormValid,
-                      hasChanges: _hasChanges,
-                      onCancel: () {
-                        if (_hasChanges) {
-                          EditTaskUtils.showDiscardChangesDialog(context);
-                        } else {
-                          Navigator.pop(context);
-                        }
-                      },
-                      onSave: _updateTask,
-                    ),
-                  ],
+                      EditTaskBottomSection(
+                        isFormValid: _isFormValid,
+                        hasChanges: _hasChanges,
+                        onCancel: () {
+                          if (_hasChanges) {
+                            EditTaskUtils.showDiscardChangesDialog(context);
+                          } else {
+                            Navigator.pop(context);
+                          }
+                        },
+                        onSave: _updateTask,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }
