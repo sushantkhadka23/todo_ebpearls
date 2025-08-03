@@ -111,4 +111,7 @@ The app adheres to Clean Architecture, dividing the codebase into three layers:
 - Uses immutable models with equatable for efficient state updates.
 - Includes meaningful comments and modular code structure.
 
+## Demo (Video):
+https://github.com/user-attachments/assets/862a0c54-2023-4a12-8cca-5cd575c9b5c6
+
 
