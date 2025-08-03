@@ -79,6 +79,32 @@ The app adheres to Clean Architecture, dividing the codebase into three layers:
 ### Local Storage:
 - Tasks are persisted using sqflite, ensuring data retention across app sessions.
 
+## How to Run the TODO App
+
+### 1. Check Dart and Flutter Versions
+dart --version
+flutter --version
+
+### 2. Clone the Repository
+
+git clone https://github.com/sushantkhadka23/todo_ebpearls.git
+cd todo_ebpearls
+
+### 3. Install Dependencies
+
+flutter pub get
+
+### 4. Run the App
+
+- Connect a device or start an emulator.
+- Run:
+  flutter run
+---
+
+### Notes
+
+- Use `flutter devices` to verify connected devices.
+- Use your IDE (VS Code, Android Studio) to run/debug if preferred.
 
 ## Notable Design Decisions
 
