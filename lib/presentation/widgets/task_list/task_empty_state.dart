@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 import 'package:go_router/go_router.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:todo_ebpearls/core/utils/todo_utils.dart';
 
 import 'package:todo_ebpearls/domain/entity/enums.dart';
 import 'package:todo_ebpearls/core/router/app_routes.dart';
 import 'package:todo_ebpearls/core/extension/theme_extension.dart';
-import 'package:todo_ebpearls/presentation/widgets/task_list/task_list_utils.dart';
 
 class TaskEmptyState extends StatelessWidget {
   final FilterStatus currentFilter;
@@ -23,19 +23,19 @@ class TaskEmptyState extends StatelessWidget {
             padding: const EdgeInsets.all(24),
             decoration: BoxDecoration(color: context.colorScheme.surface),
             child: FaIcon(
-              TaskListUtils.getEmptyStateIcon(currentFilter),
+              TodoUtils.getEmptyStateIcon(currentFilter),
               size: 48,
               color: context.colorScheme.primary.withOpacity(0.7),
             ),
           ),
           const SizedBox(height: 24),
           Text(
-            TaskListUtils.getEmptyStateTitle(currentFilter),
+            TodoUtils.getEmptyStateTitle(currentFilter),
             style: context.textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 8),
           Text(
-            TaskListUtils.getEmptyStateSubtitle(currentFilter),
+            TodoUtils.getEmptyStateSubtitle(currentFilter),
             style: context.textTheme.bodyMedium?.copyWith(color: context.colorScheme.onSurface.withOpacity(0.6)),
             textAlign: TextAlign.center,
           ),

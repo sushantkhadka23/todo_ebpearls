@@ -9,4 +9,5 @@ abstract class TaskRepository {
   Future<dartz.Either<Exception, void>> updateTask(Task task);
   Future<dartz.Either<Exception, void>> deleteTask(String id);
   Future<dartz.Either<Exception, void>> toggleTaskCompletion(String id, bool isCompleted);
+  Future<dartz.Either<Exception, void>> deleteAllTasks();
 }

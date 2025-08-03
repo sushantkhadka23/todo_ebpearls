@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo_ebpearls/core/status/app_status.dart';
-import 'package:todo_ebpearls/core/utils/snackbar_utils.dart';
-import 'package:todo_ebpearls/domain/entity/enums.dart';
+
 import 'package:todo_ebpearls/domain/entity/task.dart';
+import 'package:todo_ebpearls/domain/entity/enums.dart';
+import 'package:todo_ebpearls/core/status/app_status.dart';
+import 'package:todo_ebpearls/core/utils/todo_utils.dart';
+import 'package:todo_ebpearls/core/utils/snackbar_utils.dart';
 import 'package:todo_ebpearls/presentation/bloc/task/task_bloc.dart';
-import 'package:todo_ebpearls/presentation/widgets/edit_task/edit_task_utils.dart';
 import 'package:todo_ebpearls/presentation/widgets/edit_task/edit_task_app_bar.dart';
-import 'package:todo_ebpearls/presentation/widgets/edit_task/edit_task_header.dart';
-import 'package:todo_ebpearls/presentation/widgets/edit_task/edit_task_status_card.dart';
-import 'package:todo_ebpearls/presentation/widgets/edit_task/edit_task_title_field.dart';
+import 'package:todo_ebpearls/presentation/widgets/edit_task/edit_task_bottom_section.dart';
 import 'package:todo_ebpearls/presentation/widgets/edit_task/edit_task_description_field.dart';
-import 'package:todo_ebpearls/presentation/widgets/edit_task/edit_task_priority_section.dart';
 import 'package:todo_ebpearls/presentation/widgets/edit_task/edit_task_due_date_section.dart';
 import 'package:todo_ebpearls/presentation/widgets/edit_task/edit_task_danger_zone.dart';
-import 'package:todo_ebpearls/presentation/widgets/edit_task/edit_task_bottom_section.dart';
+import 'package:todo_ebpearls/presentation/widgets/edit_task/edit_task_header.dart';
+import 'package:todo_ebpearls/presentation/widgets/edit_task/edit_task_priority_section.dart';
+import 'package:todo_ebpearls/presentation/widgets/edit_task/edit_task_status_card.dart';
+import 'package:todo_ebpearls/presentation/widgets/edit_task/edit_task_title_field.dart';
 
 class EditTaskScreen extends StatefulWidget {
   final String taskId;
@@ -199,7 +200,7 @@ class _EditTaskScreenState extends State<EditTaskScreen> with TickerProviderStat
             canPop: !_hasChanges,
             onPopInvokedWithResult: (didPop, result) {
               if (!didPop && _hasChanges) {
-                EditTaskUtils.showDiscardChangesDialog(context);
+                TodoUtils.showDiscardChangesDialog(context);
               }
             },
             child: Scaffold(
@@ -207,7 +208,7 @@ class _EditTaskScreenState extends State<EditTaskScreen> with TickerProviderStat
                 hasChanges: _hasChanges,
                 onBack: () {
                   if (_hasChanges) {
-                    EditTaskUtils.showDiscardChangesDialog(context);
+                    TodoUtils.showDiscardChangesDialog(context);
                   } else {
                     Navigator.pop(context);
                   }
@@ -268,7 +269,12 @@ class _EditTaskScreenState extends State<EditTaskScreen> with TickerProviderStat
                                       const SizedBox(height: 32),
                                       EditTaskDangerZone(
                                         taskTitle: _task!.title,
-                                        onDelete: () => EditTaskUtils.showDeleteConfirmation(context, _task!.id),
+                                        onDelete: () => TodoUtils.showDeleteConfirmation(
+                                          context: context,
+                                          taskId: _task!.id,
+                                          taskTitle: _task!.title,
+                                          onDelete: () => context.read<TaskBloc>().add(RemoveTask(_task!.id)),
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -283,7 +289,7 @@ class _EditTaskScreenState extends State<EditTaskScreen> with TickerProviderStat
                         hasChanges: _hasChanges,
                         onCancel: () {
                           if (_hasChanges) {
-                            EditTaskUtils.showDiscardChangesDialog(context);
+                            TodoUtils.showDiscardChangesDialog(context);
                           } else {
                             Navigator.pop(context);
                           }

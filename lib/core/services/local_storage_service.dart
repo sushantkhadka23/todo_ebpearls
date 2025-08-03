@@ -63,7 +63,7 @@ class LocalStorageService {
     final db = await database;
     final List<Map<String, dynamic>> maps = await db.query(
       AppConstants.tableName,
-      orderBy: sortByDueDate ? 'dueDate ASC' : null,
+      orderBy: sortByDueDate ? 'dueDate IS NULL, dueDate ASC' : 'createdAt DESC',
     );
     return maps.map((map) => _toTask(TaskModel.fromJson(map))).toList();
   }

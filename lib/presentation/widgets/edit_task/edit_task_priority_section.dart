@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:todo_ebpearls/core/utils/todo_utils.dart';
 import 'package:todo_ebpearls/domain/entity/enums.dart';
-import 'package:todo_ebpearls/presentation/widgets/edit_task/edit_task_utils.dart';
 
 class EditTaskPrioritySection extends StatelessWidget {
   final Priority selectedPriority;
@@ -34,12 +34,12 @@ class EditTaskPrioritySection extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
                   decoration: BoxDecoration(
                     color: isSelected
-                        ? EditTaskUtils.getPriorityColor(priority).withOpacity(0.15)
+                        ? TodoUtils.getPriorityColor(priority).withOpacity(0.15)
                         : Theme.of(context).colorScheme.surfaceVariant.withOpacity(0.3),
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(
                       color: isSelected
-                          ? EditTaskUtils.getPriorityColor(priority)
+                          ? TodoUtils.getPriorityColor(priority)
                           : Theme.of(context).colorScheme.outline.withOpacity(0.2),
                       width: isSelected ? 2 : 1,
                     ),
@@ -49,12 +49,12 @@ class EditTaskPrioritySection extends StatelessWidget {
                       Container(
                         padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
-                          color: EditTaskUtils.getPriorityColor(priority).withOpacity(0.2),
+                          color: TodoUtils.getPriorityColor(priority).withOpacity(0.2),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: FaIcon(
-                          EditTaskUtils.getPriorityIcon(priority),
-                          color: EditTaskUtils.getPriorityColor(priority),
+                          TodoUtils.getPriorityIcon(priority),
+                          color: TodoUtils.getPriorityColor(priority),
                           size: 16,
                         ),
                       ),
@@ -63,9 +63,7 @@ class EditTaskPrioritySection extends StatelessWidget {
                         priority.name.toUpperCase(),
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
                           fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-                          color: isSelected
-                              ? EditTaskUtils.getPriorityColor(priority)
-                              : Theme.of(context).colorScheme.onSurface,
+                          color: isSelected ? TodoUtils.getPriorityColor(priority) : Theme.of(context).colorScheme.onSurface,
                           fontSize: 12,
                         ),
                         textAlign: TextAlign.center,

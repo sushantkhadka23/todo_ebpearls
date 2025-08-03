@@ -88,4 +88,16 @@ class TaskRepositoryImpl extends TaskRepository {
       return dartz.left(DatabaseException('Failed to update task: $e'));
     }
   }
+
+  @override
+  Future<dartz.Either<Exception, void>> deleteAllTasks() async {
+    try {
+      await localDataSource.deleteDatabase();
+      return dartz.Right(null);
+    } on DatabaseException catch (e) {
+      return dartz.left(e);
+    } catch (e) {
+      return dartz.left(DatabaseException('Failed to delete database: $e'));
+    }
+  }
 }
