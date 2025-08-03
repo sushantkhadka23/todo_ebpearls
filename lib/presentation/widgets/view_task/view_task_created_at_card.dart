@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:todo_ebpearls/core/utils/todo_utils.dart';
 
 import 'package:todo_ebpearls/domain/entity/task.dart';
 import 'package:todo_ebpearls/core/extension/theme_extension.dart';
-import 'package:todo_ebpearls/presentation/widgets/task_list/task_list_utils.dart';
 
 class ViewTaskCreatedAtCard extends StatelessWidget {
   final Task task;
@@ -13,7 +13,7 @@ class ViewTaskCreatedAtCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final formattedCreatedAt = TaskListUtils.formatCreatedAt(task.createdAt);
+    final formattedCreatedAt = TodoUtils.formatCreatedAt(task.createdAt);
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(16),

@@ -19,7 +19,6 @@ class ChangeTask extends TaskEvent {
 
 class GetSingleTask extends TaskEvent {
   final String id;
-
   GetSingleTask(this.id);
 }
 
@@ -38,3 +37,10 @@ class SortTasksByDueDate extends TaskEvent {
   final bool sortByDueDate;
   SortTasksByDueDate(this.sortByDueDate);
 }
+
+class ChangeFilter extends TaskEvent {
+  final FilterStatus filter;
+  ChangeFilter(this.filter);
+}
+
+class DeleteAllTasks extends TaskEvent {}

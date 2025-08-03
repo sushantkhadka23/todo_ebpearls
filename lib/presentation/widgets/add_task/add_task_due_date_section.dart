@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:todo_ebpearls/presentation/widgets/add_task/add_task_utils.dart';
+import 'package:todo_ebpearls/core/utils/todo_utils.dart';
 
 class AddTaskDueDateSection extends StatelessWidget {
   final DateTime? selectedDueDate;
@@ -30,7 +30,7 @@ class AddTaskDueDateSection extends StatelessWidget {
         const SizedBox(height: 12),
         GestureDetector(
           onTap: () async {
-            final picked = await AddTaskUtils.selectDueDate(context, selectedDueDate);
+            final picked = await TodoUtils.selectDueDate(context, selectedDueDate);
             if (picked != null && picked != selectedDueDate) {
               onDueDateSelected(picked);
             }
@@ -73,7 +73,7 @@ class AddTaskDueDateSection extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        selectedDueDate != null ? AddTaskUtils.formatDueDate(selectedDueDate!) : 'Select due date',
+                        selectedDueDate != null ? TodoUtils.formatDueDate(selectedDueDate!) : 'Select due date',
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                           fontWeight: selectedDueDate != null ? FontWeight.w600 : FontWeight.normal,
                           color: selectedDueDate != null
@@ -84,7 +84,7 @@ class AddTaskDueDateSection extends StatelessWidget {
                       if (selectedDueDate != null) ...[
                         const SizedBox(height: 2),
                         Text(
-                          AddTaskUtils.getDueDateRelativeText(selectedDueDate!),
+                          TodoUtils.getDueDateRelativeText(selectedDueDate!),
                           style: Theme.of(
                             context,
                           ).textTheme.bodySmall?.copyWith(color: Theme.of(context).colorScheme.primary),

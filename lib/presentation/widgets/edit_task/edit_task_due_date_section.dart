@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:todo_ebpearls/presentation/widgets/edit_task/edit_task_utils.dart';
+import 'package:todo_ebpearls/core/utils/todo_utils.dart';
 
 class EditTaskDueDateSection extends StatelessWidget {
   final DateTime? selectedDueDate;
@@ -30,7 +30,7 @@ class EditTaskDueDateSection extends StatelessWidget {
         const SizedBox(height: 12),
         GestureDetector(
           onTap: () async {
-            final picked = await EditTaskUtils.selectDueDate(context, selectedDueDate);
+            final picked = await TodoUtils.selectDueDate(context, selectedDueDate);
             if (picked != null && picked != selectedDueDate) {
               onDueDateSelected(picked);
             }
@@ -73,7 +73,7 @@ class EditTaskDueDateSection extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        selectedDueDate != null ? EditTaskUtils.formatDueDate(selectedDueDate!) : 'Select due date',
+                        selectedDueDate != null ? TodoUtils.formatDueDate(selectedDueDate!) : 'Select due date',
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                           fontWeight: selectedDueDate != null ? FontWeight.w600 : FontWeight.normal,
                           color: selectedDueDate != null
@@ -84,9 +84,9 @@ class EditTaskDueDateSection extends StatelessWidget {
                       if (selectedDueDate != null) ...[
                         const SizedBox(height: 2),
                         Text(
-                          EditTaskUtils.getDueDateRelativeText(selectedDueDate!),
+                          TodoUtils.getDueDateRelativeText(selectedDueDate!),
                           style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: EditTaskUtils.isDueDateOverdue(selectedDueDate!)
+                            color: TodoUtils.isDueDateOverdue(selectedDueDate!)
                                 ? Colors.red.shade600
                                 : Theme.of(context).colorScheme.primary,
                           ),

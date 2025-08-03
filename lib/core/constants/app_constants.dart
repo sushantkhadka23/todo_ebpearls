@@ -8,4 +8,6 @@ class AppConstants {
   static const String seedColorKey = 'seed_color';
 
   static const String manRopeFont = 'Manrope';
+
+  static const String welcomeImage = 'assets/images/welcome.svg';
 }

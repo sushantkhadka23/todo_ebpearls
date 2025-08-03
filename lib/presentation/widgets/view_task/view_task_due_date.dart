@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:todo_ebpearls/core/utils/todo_utils.dart';
 
 import 'package:todo_ebpearls/domain/entity/task.dart';
 import 'package:todo_ebpearls/core/extension/theme_extension.dart';
-import 'package:todo_ebpearls/presentation/widgets/task_list/task_list_utils.dart';
 
 class ViewTaskDueDate extends StatelessWidget {
   final Task task;
@@ -13,8 +13,8 @@ class ViewTaskDueDate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isOverdue = TaskListUtils.isDueDateOverdue(task.dueDate!);
-    final formattedDate = TaskListUtils.formatDueDate(task.dueDate!);
+    final isOverdue = TodoUtils.isDueDateOverdue(task.dueDate!);
+    final formattedDate = TodoUtils.formatDueDate(task.dueDate!);
     final dueDateColor = isOverdue ? Colors.red.shade400 : context.colorScheme.primary;
 
     return Expanded(

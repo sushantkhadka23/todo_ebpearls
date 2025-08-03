@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:todo_ebpearls/core/utils/todo_utils.dart';
 
 import 'package:todo_ebpearls/domain/entity/enums.dart';
 import 'package:todo_ebpearls/core/extension/theme_extension.dart';
-import 'package:todo_ebpearls/presentation/widgets/task_list/task_list_utils.dart';
 
 class TaskFilterSection extends StatelessWidget {
   final FilterStatus currentFilter;
@@ -54,13 +54,13 @@ class TaskFilterSection extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     FaIcon(
-                      TaskListUtils.getFilterIcon(filter),
+                      TodoUtils.getFilterIcon(filter),
                       size: 16,
                       color: isSelected ? context.colorScheme.onPrimary : context.colorScheme.onSurface.withOpacity(0.6),
                     ),
                     const SizedBox(width: 8),
                     Text(
-                      TaskListUtils.getFilterLabel(filter),
+                      TodoUtils.getFilterLabel(filter),
                       style: TextStyle(
                         color: isSelected ? context.colorScheme.onPrimary : context.colorScheme.onSurface,
                         fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,

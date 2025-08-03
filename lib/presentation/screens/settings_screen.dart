@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:todo_ebpearls/core/extension/theme_extension.dart';
 
 import 'package:todo_ebpearls/core/utils/snackbar_utils.dart';
+import 'package:todo_ebpearls/core/utils/todo_utils.dart';
 import 'package:todo_ebpearls/presentation/bloc/theme/theme_bloc.dart';
 import 'package:todo_ebpearls/presentation/widgets/settings/setting_app_bar.dart';
 import 'package:todo_ebpearls/presentation/widgets/settings/setting_theme_selection.dart';
@@ -77,6 +80,25 @@ class _SettingsScreenState extends State<SettingsScreen> with TickerProviderStat
                         context.read<ThemeBloc>().add(UpdateSeedColor(color));
                         SnackbarUtils.showSuccess(context, 'App color updated successfully!');
                       },
+                    ),
+                    const SizedBox(height: 20),
+                    Center(
+                      child: ElevatedButton.icon(
+                        style: ElevatedButton.styleFrom(
+                          padding: EdgeInsets.all(13),
+                          backgroundColor: context.colorScheme.error,
+                          foregroundColor: context.colorScheme.onError,
+                        ),
+                        onPressed: () => TodoUtils.showDeleteAllTasksDialog(context: context),
+                        label: Text(
+                          'Delete All Task',
+                          style: context.textTheme.titleMedium?.copyWith(
+                            color: context.colorScheme.onError,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        icon: FaIcon(FontAwesomeIcons.trash),
+                      ),
                     ),
                   ],
                 ),

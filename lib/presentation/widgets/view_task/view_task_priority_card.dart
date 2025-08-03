@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:todo_ebpearls/core/utils/todo_utils.dart';
 
 import 'package:todo_ebpearls/domain/entity/task.dart';
 import 'package:todo_ebpearls/core/extension/theme_extension.dart';
-import 'package:todo_ebpearls/presentation/widgets/task_list/task_list_utils.dart';
 
 class ViewTaskPriorityCard extends StatelessWidget {
   final Task task;
@@ -12,9 +12,9 @@ class ViewTaskPriorityCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final priorityColor = TaskListUtils.getPriorityColor(task.priority);
-    final priorityIcon = TaskListUtils.getPriorityIcon(task.priority);
-    final priorityText = TaskListUtils.getPriorityText(task.priority);
+    final priorityColor = TodoUtils.getPriorityColor(task.priority);
+    final priorityIcon = TodoUtils.getPriorityIcon(task.priority);
+    final priorityText = TodoUtils.getPriorityText(task.priority);
 
     return Expanded(
       child: Container(
