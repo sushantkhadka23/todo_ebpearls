@@ -33,6 +33,7 @@ class TodoApp extends StatelessWidget {
       child: BlocBuilder<ThemeBloc, ThemeState>(
         builder: (context, themeState) {
           return MaterialApp.router(
+            debugShowCheckedModeBanner: false,
             theme: AppTheme.lightTheme(themeState.seedColor),
             darkTheme: AppTheme.darkTheme(themeState.seedColor),
             themeMode: themeState.mode,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:todo_ebpearls/core/extension/theme_extension.dart';
 
 class EditTaskHeader extends StatelessWidget {
   const EditTaskHeader({super.key});
@@ -21,8 +22,11 @@ class EditTaskHeader extends StatelessWidget {
         children: [
           Container(
             padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(color: Colors.blue.shade100, borderRadius: BorderRadius.circular(12)),
-            child: FaIcon(FontAwesomeIcons.penToSquare, color: Colors.blue.shade600, size: 24),
+            decoration: BoxDecoration(
+              color: context.colorScheme.secondary.withOpacity(0.2),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: FaIcon(FontAwesomeIcons.penToSquare, color: context.colorScheme.primary, size: 24),
           ),
           const SizedBox(width: 16),
           Expanded(
@@ -31,16 +35,12 @@ class EditTaskHeader extends StatelessWidget {
               children: [
                 Text(
                   'Edit Your Task',
-                  style: Theme.of(
-                    context,
-                  ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold, color: Colors.blue.shade700),
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold, color: Colors.black),
                 ),
                 const SizedBox(height: 4),
                 Text(
                   'Update task details and keep your work organized',
-                  style: Theme.of(
-                    context,
-                  ).textTheme.bodySmall?.copyWith(color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7)),
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.black),
                 ),
               ],
             ),

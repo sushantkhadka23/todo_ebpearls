@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:todo_ebpearls/core/extension/theme_extension.dart';
 import 'package:todo_ebpearls/domain/entity/task.dart';
 
 class EditTaskStatusCard extends StatelessWidget {
@@ -41,14 +42,12 @@ class EditTaskStatusCard extends StatelessWidget {
                   task.isCompleted ? 'Completed Task' : 'Active Task',
                   style: Theme.of(context).textTheme.titleSmall?.copyWith(
                     fontWeight: FontWeight.w600,
-                    color: task.isCompleted ? Colors.green.shade700 : Colors.amber.shade700,
+                    color: task.isCompleted ? Colors.green.shade700 : Colors.amber.shade500,
                   ),
                 ),
                 Text(
                   'Created on ${DateFormat('MMM dd, yyyy').format(task.createdAt)}',
-                  style: Theme.of(
-                    context,
-                  ).textTheme.bodySmall?.copyWith(color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6)),
+                  style: context.textTheme.bodySmall?.copyWith(color: Colors.black),
                 ),
               ],
             ),
