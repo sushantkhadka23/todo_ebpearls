@@ -5,17 +5,14 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:todo_ebpearls/core/utils/app_size.dart';
 import 'package:todo_ebpearls/core/router/app_routes.dart';
+import 'package:todo_ebpearls/core/extension/theme_extension.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-    final colorScheme = Theme.of(context).colorScheme;
-
     return Scaffold(
-      backgroundColor: colorScheme.surface,
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.all(AppSize.viewMargin),
@@ -30,17 +27,19 @@ class WelcomeScreen extends StatelessWidget {
               const SizedBox(height: AppSize.spacedViewSpacing),
               Text(
                 'Welcome to Todo App',
-                style: textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.w600, color: colorScheme.onSurface),
+                style: context.textTheme.headlineMedium?.copyWith(
+                  fontWeight: FontWeight.w600,
+                  color: context.colorScheme.onSurface,
+                ),
                 textAlign: TextAlign.center,
               ),
 
               const SizedBox(height: AppSize.viewMargin),
               Text(
                 'Organize your tasks and boost your productivity',
-                style: textTheme.bodyLarge?.copyWith(color: colorScheme.onSurface.withOpacity(0.6)),
+                style: context.textTheme.bodyLarge?.copyWith(color: context.colorScheme.onSurface.withOpacity(0.6)),
                 textAlign: TextAlign.center,
               ),
-
               const SizedBox(height: AppSize.spacedViewSpacing * 1.5),
               SizedBox(
                 width: double.infinity,
@@ -48,19 +47,20 @@ class WelcomeScreen extends StatelessWidget {
                 child: ElevatedButton(
                   onPressed: () => context.pushReplacementNamed(AppRoutesName.taskList),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: colorScheme.primary,
-                    foregroundColor: colorScheme.onPrimary,
+                    backgroundColor: context.colorScheme.primary,
+                    foregroundColor: context.colorScheme.onPrimary,
                     elevation: 0,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppSize.cornerRadius)),
                   ),
                   child: Text(
                     'Get Started',
-                    style: textTheme.titleMedium?.copyWith(color: colorScheme.onPrimary, fontWeight: FontWeight.w500),
+                    style: context.textTheme.titleMedium?.copyWith(
+                      color: context.colorScheme.onPrimary,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),
-
-              // Bottom spacer
               const Spacer(),
             ],
           ),

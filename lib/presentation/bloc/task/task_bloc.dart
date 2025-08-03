@@ -65,7 +65,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
       final tasksResult = await getTasks.execute();
       tasksResult.fold(
         (failure) => emit(state.copyWith(status: Failure(failure))),
-        (tasks) => emit(state.copyWith(tasks: tasks, task: event.task, status: const Success())),
+        (tasks) => emit(state.copyWith(tasks: tasks, task: null, status: const Success())),
       );
     });
   }
